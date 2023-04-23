@@ -1,14 +1,17 @@
-class AppFile{
-  String id;
+import 'package:isar/isar.dart';
+
+part 'appfile.g.dart';
+
+@collection
+class AppFile {
+  Id id = Isar.autoIncrement;
   String path;
   String name;
   String description;
 
   AppFile({
-    required this.id,
     required this.path,
     required this.name,
     required this.description,
-});
-
+  });
 }
