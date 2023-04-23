@@ -4,8 +4,10 @@ part 'appfile.g.dart';
 
 @collection
 class AppFile {
+
   Id id = Isar.autoIncrement;
   String path;
+
   String name;
   String description;
 
