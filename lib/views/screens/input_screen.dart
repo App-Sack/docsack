@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chip_tags/flutter_chip_tags.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:sizer/sizer.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class InputScreen extends StatefulWidget {
   InputScreen({Key? key}) : super(key: key);
@@ -15,6 +15,27 @@ class _InputScreenState extends State<InputScreen> {
   Color currentColor = Color(0xff443a49);
 
   List<String> _myList = [];
+
+  late double _distanceToField;
+  late TextfieldTagsController _controller;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _distanceToField = MediaQuery.of(context).size.width;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextfieldTagsController();
+  }
 
 // ValueChanged<Color> callback
   void changeColor(Color color) {
@@ -33,8 +54,6 @@ class _InputScreenState extends State<InputScreen> {
               pickerColor: pickerColor,
               onColorChanged: changeColor,
             ),
-            // Use Material color picker:
-            //
             // child: MaterialPicker(
             //   pickerColor: pickerColor,
             //   onColorChanged: changeColor,
@@ -71,7 +90,7 @@ class _InputScreenState extends State<InputScreen> {
   //
   // _pickIcon() async {
   //   IconData? icon = await FlutterIconPicker.showIconPicker(context,
-  //       iconPackModes: [IconPack.material]);
+  //       iconPackModes: [IconPack.fontAwesomeIcons]);
   //
   //   _icon = Icon(icon);
   //   setState(() {});
@@ -122,27 +141,34 @@ class _InputScreenState extends State<InputScreen> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20))),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
                           maxLines: 2,
                           decoration: InputDecoration(
-                              labelText: "Description",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),),),
+                            labelText: "Description",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           children: [
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border:Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
@@ -150,7 +176,8 @@ class _InputScreenState extends State<InputScreen> {
                                             width: 24,
                                             height: 24,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                               color: currentColor,
                                             ),
                                             margin: EdgeInsets.only(right: 10),
@@ -159,15 +186,18 @@ class _InputScreenState extends State<InputScreen> {
                                         ],
                                       ),
                                       GestureDetector(
-                                        onTap: ()=>_pickColor(context),
+                                        onTap: () => _pickColor(context),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.blue
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.blue),
                                           child: Padding(
                                             padding: const EdgeInsets.all(6.0),
-                                            child: Icon(Icons.colorize_outlined,color: Colors.white,),
+                                            child: Icon(
+                                              Icons.colorize_outlined,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -176,35 +206,43 @@ class _InputScreenState extends State<InputScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 12,),
+                            SizedBox(
+                              width: 12,
+                            ),
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border:Border.all(color: Colors.grey),
+                                  border: Border.all(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
                                           Icon(Icons.abc),
-                                          SizedBox(width: 10,),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
                                           Text("Icon")
                                         ],
                                       ),
                                       GestureDetector(
-                                        onTap: (){},
+                                        onTap: () {},
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.blue
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.blue),
                                           child: Padding(
                                             padding: const EdgeInsets.all(6.0),
-                                            child: Icon(Icons.colorize_outlined,color: Colors.white,),
+                                            child: Icon(
+                                              Icons.colorize_outlined,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -215,14 +253,117 @@ class _InputScreenState extends State<InputScreen> {
                             )
                           ],
                         ),
-                        SizedBox(height: 10,),
-                        ChipTags(
-                          list: _myList,
-                          createTagOnSubmit: true,
-                          decoration:  InputDecoration(
-                              labelText: "Tags",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldTags(
+                          textfieldTagsController: _controller,
+                          initialTags: const [
+                            'folder',
+                          ],
+                          textSeparators: const [' ', ','],
+                          letterCase: LetterCase.normal,
+                          validator: (String tag) {
+                            if (_controller.getTags!.contains(tag)) {
+                              return 'The tag is already added';
+                            }
+                            return null;
+                          },
+                          inputfieldBuilder: (context, tec, fn, error,
+                              onChanged, onSubmitted) {
+                            return ((context, sc, tags, onTagDelete) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: TextField(
+                                  controller: tec,
+                                  focusNode: fn,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.lightBlue,
+                                        width: 3.0,
+                                      ),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.lightBlue,
+                                        width: 3.0,
+                                      ),
+                                    ),
+                                    helperText: 'Separate each tag with comma',
+                                    helperStyle: const TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                    hintText: _controller.hasTags
+                                        ? ''
+                                        : "Enter tags...",
+                                    errorText: error,
+                                    prefixIconConstraints: BoxConstraints(
+                                        maxWidth: _distanceToField * 0.74),
+                                    prefixIcon: tags.isNotEmpty
+                                        ? SingleChildScrollView(
+                                            controller: sc,
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                                children:
+                                                    tags.map((String tag) {
+                                              return Container(
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20.0),
+                                                  ),
+                                                  color: Colors.lightBlue,
+                                                ),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 5.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    InkWell(
+                                                      child: Text(
+                                                        '$tag',
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      onTap: () {
+                                                        print("$tag selected");
+                                                      },
+                                                    ),
+                                                    const SizedBox(width: 4.0),
+                                                    InkWell(
+                                                      child: const Icon(
+                                                        Icons.cancel,
+                                                        size: 14.0,
+                                                        color: Color.fromARGB(
+                                                            255, 233, 233, 233),
+                                                      ),
+                                                      onTap: () {
+                                                        onTagDelete(tag);
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList()),
+                                          )
+                                        : null,
+                                  ),
+                                  onChanged: onChanged,
+                                  onSubmitted: onSubmitted,
+                                ),
+                              );
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -236,5 +377,3 @@ class _InputScreenState extends State<InputScreen> {
     );
   }
 }
-
-
