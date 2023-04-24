@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:docsack/views/screens/input_screen.dart';
+import 'package:sizer/sizer.dart';
 
-import 'views/screens/home_screen.dart';
-
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -11,8 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
+    return Sizer(
+      builder: (BuildContext, Orientation, DeviceType) => MaterialApp(
+        home: InputScreen(),
+      ),
     );
   }
 }
